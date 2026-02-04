@@ -1,0 +1,8 @@
+name: EIZZOs-Launchers
+version: 1.0-SNAPSHOT
+main: com.eizzo.launchers.EizzoLaunchers
+api-version: 1.21
+commands:
+  launchers:
+    description: Manage launch pads.
+    permission: eizzolaunchers.admin

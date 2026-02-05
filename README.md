@@ -1,4 +1,4 @@
-# <gradient:#ffaa00:#ffff55><b>EIZZOs-Launchers</b></gradient>
+# <gradient:#ffaa00:#ffff55>EIZZOs-Launchers</gradient>
 
 Created by **EIZZO**
 

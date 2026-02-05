@@ -1,4 +1,4 @@
-# <gradient:#ffaa00:#ffff55>EIZZOs-Launchers</gradient>
+<img src="logo.svg" width="400" alt="EIZZOs-Launchers Logo">
 
 Created by **EIZZO**
 

@@ -1,4 +1,4 @@
-<img src="logo.svg" width="400" alt="EIZZOs-Launchers Logo">
+# <gradient:#ffaa00:#ffff55>EIZZOs-Launchers</gradient>
 
 Created by **EIZZO**
 
@@ -13,20 +13,21 @@ Created by **EIZZO**
 
 #### 1. **Precision Launch Mechanics**
 - **Dual-Axis Control:** Independently configure **Vertical** (height) and **Horizontal** (distance) velocity.
-- **Directional Awareness:** Launches are calculated based on the player's current facing direction, ensuring a natural and intuitive feel.
+- **Directional Awareness:** Launches follow the entity's looking direction for a natural movement feel.
 
 #### 2. **Professional Visuals & Audio**
-- **Dual Particle System:** Each launcher supports two independent particle effects (e.g., Flame and Cloud) for rich visual feedback.
-- **Dynamic Soundscape:** Customizable sound effects provide immediate auditory confirmation of the launch.
+- **Dual Launch Particles:** Spawn two independent particle effects (e.g., Flame and Cloud) at the moment of launch.
+- **Parallel Foot Trails:** Dynamic particles follow the player's feet (or boat sides) while in the air, creating a professional "streak" effect.
+- **Dynamic Soundscape:** Customizable sound effects provide immediate auditory confirmation.
 
 #### 3. **Advanced In-Game Editor**
-- **Clean Layout:** Organized GUI with power controls, boat toggles, and effect selectors.
-- **Live Adjustments:** Tweak power levels or cycle through "Nice" particle/sound presets and see results instantly.
+- **Clean 45-Slot Layout:** Organized GUI with power controls, boat toggles, and dedicated effect columns.
+- **Live Adjustments:** Tweak power levels or cycle through "Nice" presets for both launch and trail effects.
 - **Item-to-Block Binding:** Simply hold a block in your hand to register it as a new launcher type.
 
-#### 4. **Vehicle & Boat Support**
-- **Transport Logic:** Works perfectly with boats and minecarts, allowing for advanced transport systems and "boost pads" for racing.
-- **Toggleable Boosts:** Enable or disable boat-specific boosting per launcher type.
+#### 4. **Smart Persistence**
+- **Intelligent Trails:** Trails automatically stop when the player lands on a block, hits water, or enters lava.
+- **Reliable Launching:** Integrated grace-period logic ensures effects trigger every single time, even on rapid subsequent launches.
 
 ---
 
@@ -35,7 +36,7 @@ Created by **EIZZO**
 #### **Command Management**
 The plugin features a robust command system with full tab completion for all properties.
 - **Set Property:** `/launchers set <material> <property> <value>`
-- **Properties:** `vertical`, `horizontal`, `boat`, `particle1`, `particle2`, `sound`.
+- **Properties:** `vertical`, `horizontal`, `boat`, `particle1`, `particle2`, `trail_particle1`, `trail_particle2`, `sound`.
 
 ---
 
@@ -61,6 +62,8 @@ launchers:
     boat: true
     particle1: FLAME
     particle2: CLOUD
+    trail_particle1: SOUL_FIRE_FLAME
+    trail_particle2: WHITE_ASH
     sound: ENTITY_FIREWORK_ROCKET_LAUNCH
 ```
 

@@ -87,17 +87,22 @@ public class LauncherGUI implements Listener {
     }
 
     public void openEditor(Player player, LauncherType type) {
-        Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 27, Component.text("Editing: " + type.getMaterial()));
+        Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 36, Component.text("Editing: " + type.getMaterial()));
 
+        // Left Column: Power
         inv.setItem(10, createControlItem(Material.LEVER, "Vertical Height", (int)type.getVertical()));
-        inv.setItem(11, createSimpleItem(Material.BLAZE_POWDER, "§eParticle 1: §f" + type.getParticle1(), "§7Click to cycle presets."));
-        inv.setItem(12, createSimpleItem(Material.WHITE_DYE, "§eParticle 2: §f" + type.getParticle2(), "§7Click to cycle presets."));
+        inv.setItem(19, createControlItem(Material.FEATHER, "Horizontal Flick", (int)type.getHorizontal()));
+
+        // Middle Column: Mode
         inv.setItem(13, createSimpleItem(Material.OAK_BOAT, "§eBoat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), "§7Toggle boat launching."));
+
+        // Right Column: Effects
+        inv.setItem(16, createSimpleItem(Material.BLAZE_POWDER, "§eParticle 1: §f" + type.getParticle1(), "§7Click to cycle presets."));
+        inv.setItem(25, createSimpleItem(Material.WHITE_DYE, "§eParticle 2: §f" + type.getParticle2(), "§7Click to cycle presets."));
         inv.setItem(15, createSimpleItem(Material.JUKEBOX, "§eSound: §f" + type.getSound(), "§7Click to cycle presets."));
-        inv.setItem(16, createControlItem(Material.FEATHER, "Horizontal Flick", (int)type.getHorizontal()));
         
-        inv.setItem(21, createSimpleItem(Material.ARROW, "§7Back to Menu", "§8Return."));
-        inv.setItem(23, createSimpleItem(Material.BARRIER, "§cClose Editor", "§7Exit."));
+        inv.setItem(30, createSimpleItem(Material.ARROW, "§7Back to Menu", "§8Return."));
+        inv.setItem(32, createSimpleItem(Material.BARRIER, "§cClose Editor", "§7Exit."));
 
         Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inv));
     }
@@ -161,7 +166,7 @@ public class LauncherGUI implements Listener {
             LauncherType type = manager.getLauncher(holder.getMaterial());
             if (type == null) return;
 
-            if (slot == 10 || slot == 16) {
+            if (slot == 10 || slot == 19) {
                 int change = event.isLeftClick() ? 10 : -10;
                 if (slot == 10) {
                     type.setVertical(Math.max(0, Math.min(100, type.getVertical() + change)));
@@ -169,12 +174,12 @@ public class LauncherGUI implements Listener {
                     type.setHorizontal(Math.max(0, Math.min(100, type.getHorizontal() + change)));
                 }
                 openEditor(player, type);
-            } else if (slot == 11) {
+            } else if (slot == 16) {
                 int index = niceParticles.indexOf(type.getParticle1());
                 index = (index + 1) % niceParticles.size();
                 type.setParticle1(niceParticles.get(index));
                 openEditor(player, type);
-            } else if (slot == 12) {
+            } else if (slot == 25) {
                 int index = niceParticles.indexOf(type.getParticle2());
                 index = (index + 1) % niceParticles.size();
                 type.setParticle2(niceParticles.get(index));
@@ -187,9 +192,9 @@ public class LauncherGUI implements Listener {
                 index = (index + 1) % niceSounds.size();
                 type.setSound(niceSounds.get(index));
                 openEditor(player, type);
-            } else if (slot == 21) {
+            } else if (slot == 30) {
                 openMainMenu(player);
-            } else if (slot == 23) {
+            } else if (slot == 32) {
                 player.closeInventory();
             }
         }

@@ -22,6 +22,7 @@ public class LaunchListener implements Listener {
 
     private final LauncherManager manager;
     private final Set<UUID> cooldown = new HashSet<>();
+    private final java.util.Map<UUID, com.eizzo.launchers.tasks.TrailTask> activeTrails = new java.util.HashMap<>();
 
     public LaunchListener(LauncherManager manager) {
         this.manager = manager;
@@ -98,7 +99,13 @@ public class LaunchListener implements Listener {
         if (velocity.lengthSquared() < 0.01) return;
 
         player.setVelocity(velocity);
-        new com.eizzo.launchers.tasks.TrailTask(player, type).runTaskTimer(com.eizzo.launchers.EizzoLaunchers.get(), 1L, 1L);
+        
+        if (activeTrails.containsKey(player.getUniqueId())) {
+            activeTrails.get(player.getUniqueId()).cancel();
+        }
+        com.eizzo.launchers.tasks.TrailTask task = new com.eizzo.launchers.tasks.TrailTask(player, type, activeTrails);
+        task.runTaskTimer(com.eizzo.launchers.EizzoLaunchers.get(), 1L, 1L);
+        activeTrails.put(player.getUniqueId(), task);
         
         try {
             player.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle1()), player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
@@ -140,7 +147,13 @@ public class LaunchListener implements Listener {
         if (velocity.lengthSquared() < 0.01) return;
 
         boat.setVelocity(velocity);
-        new com.eizzo.launchers.tasks.TrailTask(boat, type).runTaskTimer(com.eizzo.launchers.EizzoLaunchers.get(), 1L, 1L);
+        
+        if (activeTrails.containsKey(boat.getUniqueId())) {
+            activeTrails.get(boat.getUniqueId()).cancel();
+        }
+        com.eizzo.launchers.tasks.TrailTask task = new com.eizzo.launchers.tasks.TrailTask(boat, type, activeTrails);
+        task.runTaskTimer(com.eizzo.launchers.EizzoLaunchers.get(), 1L, 1L);
+        activeTrails.put(boat.getUniqueId(), task);
 
         try {
             boat.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle1()), boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);

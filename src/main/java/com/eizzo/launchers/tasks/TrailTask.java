@@ -8,30 +8,35 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Map;
+import java.util.UUID;
+
 public class TrailTask extends BukkitRunnable {
 
     private final Entity entity;
     private final LauncherType type;
+    private final Map<UUID, TrailTask> activeTrails;
 
-    public TrailTask(Entity entity, LauncherType type) {
+    public TrailTask(Entity entity, LauncherType type, Map<UUID, TrailTask> activeTrails) {
         this.entity = entity;
         this.type = type;
+        this.activeTrails = activeTrails;
     }
 
     @Override
     public void run() {
         if (!entity.isValid() || entity.isDead()) {
-            this.cancel();
+            stop();
             return;
         }
 
         if (entity instanceof Player player && player.isOnline()) {
             if (player.isOnGround() || player.getLocation().getBlock().isLiquid()) {
-                this.cancel();
+                stop();
                 return;
             }
         } else if (entity.isOnGround() || entity.getLocation().getBlock().isLiquid()) {
-            this.cancel();
+            stop();
             return;
         }
 
@@ -43,7 +48,6 @@ public class TrailTask extends BukkitRunnable {
             dir.normalize();
         }
 
-        // Perpendicular vector for the "feet" offset (0.3 blocks left and right)
         Vector sideOffset = new Vector(-dir.getZ(), 0, dir.getX()).normalize().multiply(0.3);
 
         spawnParticles(loc.clone().add(sideOffset));
@@ -58,5 +62,10 @@ public class TrailTask extends BukkitRunnable {
         try {
             loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle2()), loc, 1, 0.02, 0.02, 0.02, 0.01);
         } catch (Exception ignored) {}
+    }
+
+    private void stop() {
+        activeTrails.remove(entity.getUniqueId(), this);
+        this.cancel();
     }
 }

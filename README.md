@@ -1,4 +1,4 @@
-# EIZZOs-Launchers
+# <gradient:#ffaa00:#ffff55>EIZZOs-Launchers</gradient>
 
 Created by **EIZZO**
 
@@ -15,14 +15,14 @@ Created by **EIZZO**
 - **Dual-Axis Control:** Independently configure **Vertical** (height) and **Horizontal** (distance) velocity.
 - **Directional Awareness:** Launches are calculated based on the player's current facing direction, ensuring a natural and intuitive feel.
 
-#### 2. **In-Game Visual Editor**
-- **Live Adjustments:** No more digging through config files. Use the `/launchers` GUI to tweak power levels and see results instantly.
-- **Interactive UI:** Intuitive buttons for adding, removing, and fine-tuning launchers.
-- **Item-to-Block Binding:** Simply hold a block in your hand to register it as a new launcher type.
+#### 2. **Professional Visuals & Audio**
+- **Dual Particle System:** Each launcher supports two independent particle effects (e.g., Flame and Cloud) for rich visual feedback.
+- **Dynamic Soundscape:** Customizable sound effects provide immediate auditory confirmation of the launch.
 
-#### 3. **Immersive Feedback**
-- **Particle Trails:** Automatic particle effects triggered upon launch to visualize the boost.
-- **Dynamic Soundscape:** High-quality sound effects provide immediate auditory confirmation of the launch.
+#### 3. **Advanced In-Game Editor**
+- **Clean Layout:** Organized GUI with power controls, boat toggles, and effect selectors.
+- **Live Adjustments:** Tweak power levels or cycle through "Nice" particle/sound presets and see results instantly.
+- **Item-to-Block Binding:** Simply hold a block in your hand to register it as a new launcher type.
 
 #### 4. **Vehicle & Boat Support**
 - **Transport Logic:** Works perfectly with boats and minecarts, allowing for advanced transport systems and "boost pads" for racing.
@@ -32,11 +32,10 @@ Created by **EIZZO**
 
 ### 🛠 Technical Details
 
-#### **How it Works**
-The plugin monitors player and vehicle movement events with high efficiency. When a transition onto a "Launcher Block" is detected:
-1. It retrieves the specific power settings for that material.
-2. It calculates the necessary velocity vector based on the entity's look direction.
-3. It applies the impulse, triggers a `Flame` and `Cloud` particle burst, and plays a `FIREWORK_LAUNCH` sound.
+#### **Command Management**
+The plugin features a robust command system with full tab completion for all properties.
+- **Set Property:** `/launchers set <material> <property> <value>`
+- **Properties:** `vertical`, `horizontal`, `boat`, `particle1`, `particle2`, `sound`.
 
 ---
 
@@ -45,6 +44,7 @@ The plugin monitors player and vehicle movement events with high efficiency. Whe
 | Command | Action | Permission |
 | :--- | :--- | :--- |
 | `/launchers` | Opens the Management GUI | `eizzolaunchers.admin` |
+| `/launchers set ...` | Modifies launcher properties | `eizzolaunchers.admin` |
 | `/launchers reload` | Reloads the configuration | `eizzolaunchers.admin` |
 
 **Aliases:** `/launcher`, `/el`
@@ -56,13 +56,12 @@ The plugin monitors player and vehicle movement events with high efficiency. Whe
 config-version: 1.1
 launchers:
   GOLD_BLOCK:
-    vertical: 50.0      # Scale: 0-100 recommended
-    horizontal: 50.0    # Scale: 0-100 recommended
-    boat-boost: true    # Boost boats/vehicles
-  EMERALD_BLOCK:
-    vertical: 100.0     # Super Jump
-    horizontal: 10.0
-    boat-boost: false
+    vertical: 50.0
+    horizontal: 50.0
+    boat: true
+    particle1: FLAME
+    particle2: CLOUD
+    sound: ENTITY_FIREWORK_ROCKET_LAUNCH
 ```
 
 ---

@@ -1,0 +1,12 @@
+name: EIZZOs-Launchers
+version: 1.0-SNAPSHOT
+main: com.eizzo.launchers.EizzoLaunchers
+api-version: 1.21
+author: Gemini
+description: Create and manage launch pads.
+commands:
+  launchers:
+    description: Manage launch pads.
+    permission: eizzolaunchers.admin
+    aliases: [launcher, el]
+    usage: /launchers

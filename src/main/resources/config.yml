@@ -1,0 +1,15 @@
+config-version: 1.1
+# EIZZOs-Launchers Config
+
+# Format:
+# material_name:
+#   vertical: 50
+#   horizontal: 50
+
+launchers:
+  GOLD_BLOCK:
+    vertical: 50
+    horizontal: 50
+  EMERALD_BLOCK:
+    vertical: 80
+    horizontal: 20

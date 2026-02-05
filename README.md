@@ -1,51 +1,52 @@
-<p align="center">
-  <img src="logo.svg" width="200" alt="EIZZOs-Launchers Logo">
-</p>
+# <gradient:#ffaa00:#ffff55><b>EIZZOs-Launchers</b></gradient>
 
-# 🚀 EIZZOs-Launchers
+Created by **EIZZO**
 
-**EIZZOs-Launchers** is a lightweight and powerful Minecraft plugin that allows server administrators to create custom launch pads using specific block types. Whether you want a gentle boost or a massive leap, EIZZOs-Launchers gives you full control over player movement.
+A professional, particle-enhanced Minecraft plugin for creating custom launch pads using specific blocks. Designed for Paper 1.21.1+, this plugin allows server admins to configure unique physical responses (Vertical/Horizontal power) for different block types.
 
-## ✨ Features
+## 🚀 Features
 
-- **Custom Launch Pads:** Define any block as a launch pad.
-- **Adjustable Intensity:** Configure both vertical and horizontal launch power per block type.
-- **In-Game GUI:** Manage your launchers easily through an intuitive graphical interface.
-- **Efficient Performance:** Designed to be lightweight with minimal impact on server resources.
-- **Easy Configuration:** Simple YAML configuration for quick setup.
+- **Block-Based Launchers:** Turn any block into a launch pad.
+- **Dynamic Physics:** Configure Vertical and Horizontal velocity separately for each block.
+- **Vehicle Support:** Works for both players on foot and those in boats/minecarts.
+- **In-Game Editor:** Full GUI-based configuration system.
+- **Particle Effects:** Visual feedback when launched.
+- **Sound Effects:** Auditory feedback for a more immersive experience.
+- **Auto-Config Update:** Robust configuration management that preserves settings across updates.
 
-## 🛠️ Commands
+## 🛠 Commands & Permissions
 
 | Command | Description | Permission |
-|---------|-------------|------------|
-| `/launchers` | Opens the Launcher Management GUI | `eizzolaunchers.admin` |
+| :--- | :--- | :--- |
+| `/launchers` | Opens the main Launcher Management GUI | `eizzolaunchers.admin` |
+| `/launchers reload` | Reloads the plugin configuration | `eizzolaunchers.admin` |
 
-## 🔑 Permissions
-
-- `eizzolaunchers.admin`: Grants access to the `/launchers` command and the ability to manage launch pads.
-
-## 🚀 Installation
-
-1. Download the latest `EIZZOs-Launchers-x.x.x.jar`.
-2. Place the JAR file in your server's `plugins/` directory.
-3. Restart or reload your server.
-4. Configure your launchers in `config.yml` or use the in-game GUI!
+**Aliases:** `/launcher`, `/el`
 
 ## ⚙️ Configuration
 
-Example `config.yml`:
+Launchers are stored in `config.yml`. While you can edit the file manually, using the **In-Game GUI** is recommended for real-time adjustments.
 
 ```yaml
 config-version: 1.1
 
 launchers:
   GOLD_BLOCK:
-    vertical: 50
-    horizontal: 50
+    vertical: 50.0
+    horizontal: 50.0
+    boat-boost: true
   EMERALD_BLOCK:
-    vertical: 80
-    horizontal: 20
+    vertical: 80.0
+    horizontal: 20.0
+    boat-boost: false
 ```
 
+## 🎮 How to Use
+
+1. **Open the GUI:** Type `/launchers`.
+2. **Add a Launcher:** Hold the block you want to turn into a launcher and click the "Add from Hand" option (or use the selection menu).
+3. **Edit Values:** Click on an existing launcher in the GUI to adjust its Vertical and Horizontal power using the interactive increment/decrement buttons.
+4. **Test:** Simply walk over or land on the configured block to be launched!
+
 ---
-*Created with ❤️ by the EIZZO team.*
+*Developed with ❤️ for the Minecraft Community.*

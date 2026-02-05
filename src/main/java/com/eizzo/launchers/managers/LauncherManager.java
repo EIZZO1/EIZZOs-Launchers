@@ -25,7 +25,9 @@ public class LauncherManager {
             double v = section.getDouble(key + ".vertical", 50);
             double h = section.getDouble(key + ".horizontal", 50);
             boolean boat = section.getBoolean(key + ".boat", false);
-            launchers.put(key.toUpperCase(), new LauncherType(key.toUpperCase(), v, h, boat));
+            String particle = section.getString(key + ".particle", "FLAME");
+            String sound = section.getString(key + ".sound", "ENTITY_FIREWORK_ROCKET_LAUNCH");
+            launchers.put(key.toUpperCase(), new LauncherType(key.toUpperCase(), v, h, boat, particle, sound));
         }
     }
 
@@ -34,6 +36,8 @@ public class LauncherManager {
             plugin.getConfig().set("launchers." + type.getMaterial() + ".vertical", type.getVertical());
             plugin.getConfig().set("launchers." + type.getMaterial() + ".horizontal", type.getHorizontal());
             plugin.getConfig().set("launchers." + type.getMaterial() + ".boat", type.isBoat());
+            plugin.getConfig().set("launchers." + type.getMaterial() + ".particle", type.getParticle());
+            plugin.getConfig().set("launchers." + type.getMaterial() + ".sound", type.getSound());
         }
         plugin.saveConfig();
     }

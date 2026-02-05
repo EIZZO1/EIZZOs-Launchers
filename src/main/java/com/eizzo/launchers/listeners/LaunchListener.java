@@ -98,9 +98,18 @@ public class LaunchListener implements Listener {
         if (velocity.lengthSquared() < 0.01) return;
 
         player.setVelocity(velocity);
-        player.getWorld().spawnParticle(org.bukkit.Particle.FLAME, player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
-        player.getWorld().spawnParticle(org.bukkit.Particle.CLOUD, player.getLocation(), 15, 0.3, 0.3, 0.3, 0.05);
-        player.getWorld().playSound(player.getLocation(), org.bukkit.Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.2f);
+        
+        try {
+            player.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle()), player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
+        } catch (Exception e) {
+            player.getWorld().spawnParticle(org.bukkit.Particle.FLAME, player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
+        }
+
+        try {
+            player.getWorld().playSound(player.getLocation(), org.bukkit.Sound.valueOf(type.getSound()), 1.0f, 1.2f);
+        } catch (Exception e) {
+            player.getWorld().playSound(player.getLocation(), org.bukkit.Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.2f);
+        }
         
         cooldown.add(player.getUniqueId());
         org.bukkit.Bukkit.getScheduler().runTaskLater(com.eizzo.launchers.EizzoLaunchers.get(), 
@@ -110,10 +119,9 @@ public class LaunchListener implements Listener {
     private void launchBoat(Boat boat, Player player, LauncherType type) {
         if (cooldown.contains(boat.getUniqueId())) return;
 
-        double vPower = (type.getVertical() / 100.0) * 1.5; // Slightly lower for boats as they are heavy
-        double hPower = (type.getHorizontal() / 100.0) * 4.0; // Higher horizontal for boats
+        double vPower = (type.getVertical() / 100.0) * 1.5;
+        double hPower = (type.getHorizontal() / 100.0) * 4.0;
 
-        // Use boat's direction instead of player's looking direction
         Vector direction = boat.getLocation().getDirection().setY(0);
         if (direction.lengthSquared() > 0) {
             direction.normalize();
@@ -125,9 +133,18 @@ public class LaunchListener implements Listener {
         if (velocity.lengthSquared() < 0.01) return;
 
         boat.setVelocity(velocity);
-        boat.getWorld().spawnParticle(org.bukkit.Particle.FLAME, boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);
-        boat.getWorld().spawnParticle(org.bukkit.Particle.CLOUD, boat.getLocation(), 20, 0.5, 0.2, 0.5, 0.05);
-        boat.getWorld().playSound(boat.getLocation(), org.bukkit.Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 0.8f);
+
+        try {
+            boat.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle()), boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);
+        } catch (Exception e) {
+            boat.getWorld().spawnParticle(org.bukkit.Particle.FLAME, boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);
+        }
+
+        try {
+            boat.getWorld().playSound(boat.getLocation(), org.bukkit.Sound.valueOf(type.getSound()), 1.0f, 0.8f);
+        } catch (Exception e) {
+            boat.getWorld().playSound(boat.getLocation(), org.bukkit.Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 0.8f);
+        }
 
         cooldown.add(boat.getUniqueId());
         org.bukkit.Bukkit.getScheduler().runTaskLater(com.eizzo.launchers.EizzoLaunchers.get(),

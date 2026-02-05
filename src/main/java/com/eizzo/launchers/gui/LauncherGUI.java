@@ -22,12 +22,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LauncherGUI implements Listener {
 
     private final EizzoLaunchers plugin;
     private final LauncherManager manager;
+
+    private final List<String> niceParticles = Arrays.asList(
+            "FLAME", "SOUL_FIRE_FLAME", "DRAGON_BREATH", "HEART", "ENCHANT", "HAPPY_VILLAGER", "CLOUD", "REDSTONE", "SOUL", "TOTEM_OF_UNDYING"
+    );
+
+    private final List<String> niceSounds = Arrays.asList(
+            "ENTITY_FIREWORK_ROCKET_LAUNCH", "ENTITY_EXPERIENCE_ORB_PICKUP", "ENTITY_PLAYER_LEVELUP", "BLOCK_NOTE_BLOCK_CHIME", "ENTITY_ENDER_DRAGON_FLAP", "ENTITY_WITHER_SHOOT"
+    );
 
     public LauncherGUI(EizzoLaunchers plugin, LauncherManager manager) {
         this.plugin = plugin;
@@ -54,7 +63,6 @@ public class LauncherGUI implements Listener {
         inv.setItem(25, createSimpleItem(Material.EMERALD, "§aAdd Launcher", "§7Hold block in hand."));
         inv.setItem(26, createSimpleItem(Material.BARRIER, "§cClose Menu", "§7Exit."));
 
-        // Use a task to ensure it opens on the next tick
         Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inv));
     }
 
@@ -67,6 +75,8 @@ public class LauncherGUI implements Listener {
         lore.add(Component.text("Vertical: " + (int)type.getVertical(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Horizontal: " + (int)type.getHorizontal(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Boat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text("Particle: §f" + type.getParticle(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text("Sound: §f" + type.getSound(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.empty());
         lore.add(Component.text("Left-Click: Edit", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Right-Click: Remove", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
@@ -79,7 +89,9 @@ public class LauncherGUI implements Listener {
         Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 27, Component.text("Editing: " + type.getMaterial()));
 
         inv.setItem(10, createControlItem(Material.LEVER, "Vertical Height", (int)type.getVertical()));
+        inv.setItem(11, createSimpleItem(Material.BLAZE_POWDER, "§eParticle: §f" + type.getParticle(), "§7Click to cycle presets."));
         inv.setItem(13, createSimpleItem(Material.OAK_BOAT, "§eBoat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), "§7Toggle boat launching."));
+        inv.setItem(15, createSimpleItem(Material.JUKEBOX, "§eSound: §f" + type.getSound(), "§7Click to cycle presets."));
         inv.setItem(16, createControlItem(Material.FEATHER, "Horizontal Flick", (int)type.getHorizontal()));
         
         inv.setItem(21, createSimpleItem(Material.ARROW, "§7Back to Menu", "§8Return."));
@@ -155,8 +167,18 @@ public class LauncherGUI implements Listener {
                     type.setHorizontal(Math.max(0, Math.min(100, type.getHorizontal() + change)));
                 }
                 openEditor(player, type);
+            } else if (slot == 11) {
+                int index = niceParticles.indexOf(type.getParticle());
+                index = (index + 1) % niceParticles.size();
+                type.setParticle(niceParticles.get(index));
+                openEditor(player, type);
             } else if (slot == 13) {
                 type.setBoat(!type.isBoat());
+                openEditor(player, type);
+            } else if (slot == 15) {
+                int index = niceSounds.indexOf(type.getSound());
+                index = (index + 1) % niceSounds.size();
+                type.setSound(niceSounds.get(index));
                 openEditor(player, type);
             } else if (slot == 21) {
                 openMainMenu(player);

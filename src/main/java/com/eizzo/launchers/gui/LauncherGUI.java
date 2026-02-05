@@ -34,6 +34,10 @@ public class LauncherGUI implements Listener {
             "FLAME", "SOUL_FIRE_FLAME", "DRAGON_BREATH", "HEART", "ENCHANT", "HAPPY_VILLAGER", "CLOUD", "REDSTONE", "SOUL", "TOTEM_OF_UNDYING", "WITCH", "LAVA", "GLOW"
     );
 
+    private final List<String> smallParticles = Arrays.asList(
+            "WITCH", "CRIT", "ENCHANTED_HIT", "WHITE_ASH", "ASH", "REVERSE_PORTAL", "SOUL_FIRE_FLAME", "FLAME", "HAPPY_VILLAGER", "GLOW"
+    );
+
     private final List<String> niceSounds = Arrays.asList(
             "ENTITY_FIREWORK_ROCKET_LAUNCH", "ENTITY_EXPERIENCE_ORB_PICKUP", "ENTITY_PLAYER_LEVELUP", "BLOCK_NOTE_BLOCK_CHIME", "ENTITY_ENDER_DRAGON_FLAP", "ENTITY_WITHER_SHOOT"
     );
@@ -75,9 +79,8 @@ public class LauncherGUI implements Listener {
         lore.add(Component.text("Vertical: " + (int)type.getVertical(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Horizontal: " + (int)type.getHorizontal(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Boat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
-        lore.add(Component.text("Particle 1: §f" + type.getParticle1(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
-        lore.add(Component.text("Particle 2: §f" + type.getParticle2(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
-        lore.add(Component.text("Sound: §f" + type.getSound(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text("Particles: §f" + type.getParticle1() + "§7, §f" + type.getParticle2(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text("Trails: §f" + type.getTrailParticle1() + "§7, §f" + type.getTrailParticle2(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.empty());
         lore.add(Component.text("Left-Click: Edit", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Right-Click: Remove", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
@@ -87,22 +90,25 @@ public class LauncherGUI implements Listener {
     }
 
     public void openEditor(Player player, LauncherType type) {
-        Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 36, Component.text("Editing: " + type.getMaterial()));
+        Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 45, Component.text("Editing: " + type.getMaterial()));
 
         // Left Column: Power
         inv.setItem(10, createControlItem(Material.LEVER, "Vertical Height", (int)type.getVertical()));
         inv.setItem(19, createControlItem(Material.FEATHER, "Horizontal Flick", (int)type.getHorizontal()));
 
-        // Middle Column: Mode
+        // Middle Column: Mode & Sound
         inv.setItem(13, createSimpleItem(Material.OAK_BOAT, "§eBoat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), "§7Toggle boat launching."));
+        inv.setItem(22, createSimpleItem(Material.JUKEBOX, "§eSound: §f" + type.getSound(), "§7Click to cycle presets."));
 
-        // Right Column: Effects
-        inv.setItem(16, createSimpleItem(Material.BLAZE_POWDER, "§eParticle 1: §f" + type.getParticle1(), "§7Click to cycle presets."));
-        inv.setItem(25, createSimpleItem(Material.WHITE_DYE, "§eParticle 2: §f" + type.getParticle2(), "§7Click to cycle presets."));
-        inv.setItem(15, createSimpleItem(Material.JUKEBOX, "§eSound: §f" + type.getSound(), "§7Click to cycle presets."));
+        // Right Columns: Effects
+        inv.setItem(15, createSimpleItem(Material.BLAZE_POWDER, "§eParticle 1: §f" + type.getParticle1(), "§7Click to cycle presets."));
+        inv.setItem(24, createSimpleItem(Material.WHITE_DYE, "§eParticle 2: §f" + type.getParticle2(), "§7Click to cycle presets."));
         
-        inv.setItem(30, createSimpleItem(Material.ARROW, "§7Back to Menu", "§8Return."));
-        inv.setItem(32, createSimpleItem(Material.BARRIER, "§cClose Editor", "§7Exit."));
+        inv.setItem(16, createSimpleItem(Material.GLOWSTONE_DUST, "§eTrail 1: §f" + type.getTrailParticle1(), "§7Click to cycle small presets."));
+        inv.setItem(25, createSimpleItem(Material.GUNPOWDER, "§eTrail 2: §f" + type.getTrailParticle2(), "§7Click to cycle small presets."));
+        
+        inv.setItem(40, createSimpleItem(Material.ARROW, "§7Back to Menu", "§8Return."));
+        inv.setItem(42, createSimpleItem(Material.BARRIER, "§cClose Editor", "§7Exit."));
 
         Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inv));
     }
@@ -174,27 +180,37 @@ public class LauncherGUI implements Listener {
                     type.setHorizontal(Math.max(0, Math.min(100, type.getHorizontal() + change)));
                 }
                 openEditor(player, type);
-            } else if (slot == 16) {
+            } else if (slot == 15) {
                 int index = niceParticles.indexOf(type.getParticle1());
                 index = (index + 1) % niceParticles.size();
                 type.setParticle1(niceParticles.get(index));
                 openEditor(player, type);
-            } else if (slot == 25) {
+            } else if (slot == 24) {
                 int index = niceParticles.indexOf(type.getParticle2());
                 index = (index + 1) % niceParticles.size();
                 type.setParticle2(niceParticles.get(index));
                 openEditor(player, type);
+            } else if (slot == 16) {
+                int index = smallParticles.indexOf(type.getTrailParticle1());
+                index = (index + 1) % smallParticles.size();
+                type.setTrailParticle1(smallParticles.get(index));
+                openEditor(player, type);
+            } else if (slot == 25) {
+                int index = smallParticles.indexOf(type.getTrailParticle2());
+                index = (index + 1) % smallParticles.size();
+                type.setTrailParticle2(smallParticles.get(index));
+                openEditor(player, type);
             } else if (slot == 13) {
                 type.setBoat(!type.isBoat());
                 openEditor(player, type);
-            } else if (slot == 15) {
+            } else if (slot == 22) {
                 int index = niceSounds.indexOf(type.getSound());
                 index = (index + 1) % niceSounds.size();
                 type.setSound(niceSounds.get(index));
                 openEditor(player, type);
-            } else if (slot == 30) {
+            } else if (slot == 40) {
                 openMainMenu(player);
-            } else if (slot == 32) {
+            } else if (slot == 42) {
                 player.closeInventory();
             }
         }

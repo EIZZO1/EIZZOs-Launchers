@@ -98,6 +98,7 @@ public class LaunchListener implements Listener {
         if (velocity.lengthSquared() < 0.01) return;
 
         player.setVelocity(velocity);
+        new com.eizzo.launchers.tasks.TrailTask(player, type).runTaskTimer(com.eizzo.launchers.EizzoLaunchers.get(), 1L, 1L);
         
         try {
             player.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle1()), player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
@@ -139,6 +140,7 @@ public class LaunchListener implements Listener {
         if (velocity.lengthSquared() < 0.01) return;
 
         boat.setVelocity(velocity);
+        new com.eizzo.launchers.tasks.TrailTask(boat, type).runTaskTimer(com.eizzo.launchers.EizzoLaunchers.get(), 1L, 1L);
 
         try {
             boat.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle1()), boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);

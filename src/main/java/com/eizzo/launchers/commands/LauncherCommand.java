@@ -71,6 +71,14 @@ public class LauncherCommand implements CommandExecutor {
                             org.bukkit.Particle.valueOf(value.toUpperCase());
                             type.setParticle2(value.toUpperCase());
                             break;
+                        case "trail_particle1":
+                            org.bukkit.Particle.valueOf(value.toUpperCase());
+                            type.setTrailParticle1(value.toUpperCase());
+                            break;
+                        case "trail_particle2":
+                            org.bukkit.Particle.valueOf(value.toUpperCase());
+                            type.setTrailParticle2(value.toUpperCase());
+                            break;
                         case "sound":
                             org.bukkit.Sound.valueOf(value.toUpperCase());
                             type.setSound(value.toUpperCase());

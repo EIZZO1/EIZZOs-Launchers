@@ -32,7 +32,7 @@ public class LauncherTabCompleter implements TabCompleter {
             }
         } else if (args.length == 3 && args[0].equalsIgnoreCase("set")) {
             String input = args[2].toLowerCase();
-            List<String> props = Arrays.asList("vertical", "horizontal", "boat", "particle1", "particle2", "sound");
+            List<String> props = Arrays.asList("vertical", "horizontal", "boat", "particle1", "particle2", "trail_particle1", "trail_particle2", "sound");
             for (String prop : props) {
                 if (prop.startsWith(input)) completions.add(prop);
             }
@@ -42,7 +42,7 @@ public class LauncherTabCompleter implements TabCompleter {
             if (prop.equals("boat")) {
                 if ("true".startsWith(input.toLowerCase())) completions.add("true");
                 if ("false".startsWith(input.toLowerCase())) completions.add("false");
-            } else if (prop.equals("particle1") || prop.equals("particle2")) {
+            } else if (prop.equals("particle1") || prop.equals("particle2") || prop.equals("trail_particle1") || prop.equals("trail_particle2")) {
                 return Arrays.stream(Particle.values())
                         .map(Enum::name)
                         .filter(name -> name.startsWith(input))

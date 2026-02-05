@@ -16,6 +16,7 @@ public class TrailTask extends BukkitRunnable {
     private final Entity entity;
     private final LauncherType type;
     private final Map<UUID, TrailTask> activeTrails;
+    private int ticks = 0;
 
     public TrailTask(Entity entity, LauncherType type, Map<UUID, TrailTask> activeTrails) {
         this.entity = entity;
@@ -30,14 +31,19 @@ public class TrailTask extends BukkitRunnable {
             return;
         }
 
-        if (entity instanceof Player player && player.isOnline()) {
-            if (player.isOnGround() || player.getLocation().getBlock().isLiquid()) {
+        ticks++;
+        
+        // Give the player 3 ticks to leave the ground before we start checking for landing
+        if (ticks > 3) {
+            if (entity instanceof Player player && player.isOnline()) {
+                if (player.isOnGround() || player.getLocation().getBlock().isLiquid()) {
+                    stop();
+                    return;
+                }
+            } else if (entity.isOnGround() || entity.getLocation().getBlock().isLiquid()) {
                 stop();
                 return;
             }
-        } else if (entity.isOnGround() || entity.getLocation().getBlock().isLiquid()) {
-            stop();
-            return;
         }
 
         Location loc = entity.getLocation().add(0, 0.2, 0);
@@ -65,7 +71,7 @@ public class TrailTask extends BukkitRunnable {
     }
 
     private void stop() {
-        activeTrails.remove(entity.getUniqueId(), this);
+        activeTrails.remove(entity.getUniqueId());
         this.cancel();
     }
 }

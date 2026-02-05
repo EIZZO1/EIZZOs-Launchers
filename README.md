@@ -1,52 +1,69 @@
-# EIZZOs-Launchers</gradient>
+# <gradient:#ffaa00:#ffff55>EIZZOs-Launchers</gradient>
 
 Created by **EIZZO**
 
-A professional, particle-enhanced Minecraft plugin for creating custom launch pads using specific blocks. Designed for Paper 1.21.1+, this plugin allows server admins to configure unique physical responses (Vertical/Horizontal power) for different block types.
+---
 
-## 🚀 Features
+### 🌟 Overview
+**EIZZOs-Launchers** is a high-performance utility plugin designed for Minecraft 1.21.1+ that transforms standard blocks into powerful, customizable launch pads. Whether you're building a lobby parkour course, a fast-travel hub, or a boat-racing circuit, this plugin provides the tools to create seamless and thrilling movement mechanics.
 
-- **Block-Based Launchers:** Turn any block into a launch pad.
-- **Dynamic Physics:** Configure Vertical and Horizontal velocity separately for each block.
-- **Vehicle Support:** Works for both players on foot and those in boats/minecarts.
-- **In-Game Editor:** Full GUI-based configuration system.
-- **Particle Effects:** Visual feedback when launched.
-- **Sound Effects:** Auditory feedback for a more immersive experience.
-- **Auto-Config Update:** Robust configuration management that preserves settings across updates.
+---
 
-## 🛠 Commands & Permissions
+### 🚀 Key Capabilities
 
-| Command | Description | Permission |
+#### 1. **Precision Launch Mechanics**
+- **Dual-Axis Control:** Independently configure **Vertical** (height) and **Horizontal** (distance) velocity.
+- **Directional Awareness:** Launches are calculated based on the player's current facing direction, ensuring a natural and intuitive feel.
+
+#### 2. **In-Game Visual Editor**
+- **Live Adjustments:** No more digging through config files. Use the `/launchers` GUI to tweak power levels and see results instantly.
+- **Interactive UI:** Intuitive buttons for adding, removing, and fine-tuning launchers.
+- **Item-to-Block Binding:** Simply hold a block in your hand to register it as a new launcher type.
+
+#### 3. **Immersive Feedback**
+- **Particle Trails:** Automatic particle effects triggered upon launch to visualize the boost.
+- **Dynamic Soundscape:** High-quality sound effects provide immediate auditory confirmation of the launch.
+
+#### 4. **Vehicle & Boat Support**
+- **Transport Logic:** Works perfectly with boats and minecarts, allowing for advanced transport systems and "boost pads" for racing.
+- **Toggleable Boosts:** Enable or disable boat-specific boosting per launcher type.
+
+---
+
+### 🛠 Technical Details
+
+#### **How it Works**
+The plugin monitors player and vehicle movement events with high efficiency. When a transition onto a "Launcher Block" is detected:
+1. It retrieves the specific power settings for that material.
+2. It calculates the necessary velocity vector based on the entity's look direction.
+3. It applies the impulse, triggers a `Flame` and `Cloud` particle burst, and plays a `FIREWORK_LAUNCH` sound.
+
+---
+
+### 📋 Commands & Permissions
+
+| Command | Action | Permission |
 | :--- | :--- | :--- |
-| `/launchers` | Opens the main Launcher Management GUI | `eizzolaunchers.admin` |
-| `/launchers reload` | Reloads the plugin configuration | `eizzolaunchers.admin` |
+| `/launchers` | Opens the Management GUI | `eizzolaunchers.admin` |
+| `/launchers reload` | Reloads the configuration | `eizzolaunchers.admin` |
 
 **Aliases:** `/launcher`, `/el`
 
-## ⚙️ Configuration
+---
 
-Launchers are stored in `config.yml`. While you can edit the file manually, using the **In-Game GUI** is recommended for real-time adjustments.
-
+### 💾 Configuration Example
 ```yaml
 config-version: 1.1
-
 launchers:
   GOLD_BLOCK:
-    vertical: 50.0
-    horizontal: 50.0
-    boat-boost: true
+    vertical: 50.0      # Scale: 0-100 recommended
+    horizontal: 50.0    # Scale: 0-100 recommended
+    boat-boost: true    # Boost boats/vehicles
   EMERALD_BLOCK:
-    vertical: 80.0
-    horizontal: 20.0
+    vertical: 100.0     # Super Jump
+    horizontal: 10.0
     boat-boost: false
 ```
 
-## 🎮 How to Use
-
-1. **Open the GUI:** Type `/launchers`.
-2. **Add a Launcher:** Hold the block you want to turn into a launcher and click the "Add from Hand" option (or use the selection menu).
-3. **Edit Values:** Click on an existing launcher in the GUI to adjust its Vertical and Horizontal power using the interactive increment/decrement buttons.
-4. **Test:** Simply walk over or land on the configured block to be launched!
-
 ---
-*Developed with ❤️ for the Minecraft Community.*
+*Developed with a focus on performance and player experience.*

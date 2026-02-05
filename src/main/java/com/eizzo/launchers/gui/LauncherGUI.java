@@ -31,7 +31,7 @@ public class LauncherGUI implements Listener {
     private final LauncherManager manager;
 
     private final List<String> niceParticles = Arrays.asList(
-            "FLAME", "SOUL_FIRE_FLAME", "DRAGON_BREATH", "HEART", "ENCHANT", "HAPPY_VILLAGER", "CLOUD", "REDSTONE", "SOUL", "TOTEM_OF_UNDYING"
+            "FLAME", "SOUL_FIRE_FLAME", "DRAGON_BREATH", "HEART", "ENCHANT", "HAPPY_VILLAGER", "CLOUD", "REDSTONE", "SOUL", "TOTEM_OF_UNDYING", "WITCH", "LAVA", "GLOW"
     );
 
     private final List<String> niceSounds = Arrays.asList(
@@ -75,7 +75,8 @@ public class LauncherGUI implements Listener {
         lore.add(Component.text("Vertical: " + (int)type.getVertical(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Horizontal: " + (int)type.getHorizontal(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Boat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
-        lore.add(Component.text("Particle: §f" + type.getParticle(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text("Particle 1: §f" + type.getParticle1(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        lore.add(Component.text("Particle 2: §f" + type.getParticle2(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.text("Sound: §f" + type.getSound(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         lore.add(Component.empty());
         lore.add(Component.text("Left-Click: Edit", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
@@ -89,7 +90,8 @@ public class LauncherGUI implements Listener {
         Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 27, Component.text("Editing: " + type.getMaterial()));
 
         inv.setItem(10, createControlItem(Material.LEVER, "Vertical Height", (int)type.getVertical()));
-        inv.setItem(11, createSimpleItem(Material.BLAZE_POWDER, "§eParticle: §f" + type.getParticle(), "§7Click to cycle presets."));
+        inv.setItem(11, createSimpleItem(Material.BLAZE_POWDER, "§eParticle 1: §f" + type.getParticle1(), "§7Click to cycle presets."));
+        inv.setItem(12, createSimpleItem(Material.WHITE_DYE, "§eParticle 2: §f" + type.getParticle2(), "§7Click to cycle presets."));
         inv.setItem(13, createSimpleItem(Material.OAK_BOAT, "§eBoat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), "§7Toggle boat launching."));
         inv.setItem(15, createSimpleItem(Material.JUKEBOX, "§eSound: §f" + type.getSound(), "§7Click to cycle presets."));
         inv.setItem(16, createControlItem(Material.FEATHER, "Horizontal Flick", (int)type.getHorizontal()));
@@ -168,9 +170,14 @@ public class LauncherGUI implements Listener {
                 }
                 openEditor(player, type);
             } else if (slot == 11) {
-                int index = niceParticles.indexOf(type.getParticle());
+                int index = niceParticles.indexOf(type.getParticle1());
                 index = (index + 1) % niceParticles.size();
-                type.setParticle(niceParticles.get(index));
+                type.setParticle1(niceParticles.get(index));
+                openEditor(player, type);
+            } else if (slot == 12) {
+                int index = niceParticles.indexOf(type.getParticle2());
+                index = (index + 1) % niceParticles.size();
+                type.setParticle2(niceParticles.get(index));
                 openEditor(player, type);
             } else if (slot == 13) {
                 type.setBoat(!type.isBoat());

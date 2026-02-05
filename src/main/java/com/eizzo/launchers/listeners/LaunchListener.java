@@ -100,9 +100,15 @@ public class LaunchListener implements Listener {
         player.setVelocity(velocity);
         
         try {
-            player.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle()), player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
+            player.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle1()), player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
         } catch (Exception e) {
             player.getWorld().spawnParticle(org.bukkit.Particle.FLAME, player.getLocation(), 20, 0.2, 0.2, 0.2, 0.1);
+        }
+
+        try {
+            player.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle2()), player.getLocation(), 15, 0.3, 0.3, 0.3, 0.05);
+        } catch (Exception e) {
+            player.getWorld().spawnParticle(org.bukkit.Particle.CLOUD, player.getLocation(), 15, 0.3, 0.3, 0.3, 0.05);
         }
 
         try {
@@ -135,9 +141,15 @@ public class LaunchListener implements Listener {
         boat.setVelocity(velocity);
 
         try {
-            boat.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle()), boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);
+            boat.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle1()), boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);
         } catch (Exception e) {
             boat.getWorld().spawnParticle(org.bukkit.Particle.FLAME, boat.getLocation(), 30, 0.5, 0.2, 0.5, 0.1);
+        }
+
+        try {
+            boat.getWorld().spawnParticle(org.bukkit.Particle.valueOf(type.getParticle2()), boat.getLocation(), 20, 0.5, 0.2, 0.5, 0.05);
+        } catch (Exception e) {
+            boat.getWorld().spawnParticle(org.bukkit.Particle.CLOUD, boat.getLocation(), 20, 0.5, 0.2, 0.5, 0.05);
         }
 
         try {

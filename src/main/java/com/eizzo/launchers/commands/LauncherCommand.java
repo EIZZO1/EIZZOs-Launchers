@@ -63,9 +63,13 @@ public class LauncherCommand implements CommandExecutor {
                         case "boat":
                             type.setBoat(Boolean.parseBoolean(value));
                             break;
-                        case "particle":
+                        case "particle1":
                             org.bukkit.Particle.valueOf(value.toUpperCase());
-                            type.setParticle(value.toUpperCase());
+                            type.setParticle1(value.toUpperCase());
+                            break;
+                        case "particle2":
+                            org.bukkit.Particle.valueOf(value.toUpperCase());
+                            type.setParticle2(value.toUpperCase());
                             break;
                         case "sound":
                             org.bukkit.Sound.valueOf(value.toUpperCase());

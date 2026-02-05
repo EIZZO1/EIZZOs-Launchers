@@ -6,6 +6,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 public class TrailTask extends BukkitRunnable {
 
@@ -35,13 +36,27 @@ public class TrailTask extends BukkitRunnable {
         }
 
         Location loc = entity.getLocation().add(0, 0.2, 0);
-        
+        Vector dir = loc.getDirection().setY(0);
+        if (dir.lengthSquared() < 0.01) {
+            dir = new Vector(0, 0, 1);
+        } else {
+            dir.normalize();
+        }
+
+        // Perpendicular vector for the "feet" offset (0.3 blocks left and right)
+        Vector sideOffset = new Vector(-dir.getZ(), 0, dir.getX()).normalize().multiply(0.3);
+
+        spawnParticles(loc.clone().add(sideOffset));
+        spawnParticles(loc.clone().subtract(sideOffset));
+    }
+
+    private void spawnParticles(Location loc) {
         try {
-            loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle1()), loc, 3, 0.1, 0.1, 0.1, 0.02);
+            loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle1()), loc, 1, 0.02, 0.02, 0.02, 0.01);
         } catch (Exception ignored) {}
 
         try {
-            loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle2()), loc, 2, 0.1, 0.1, 0.1, 0.02);
+            loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle2()), loc, 1, 0.02, 0.02, 0.02, 0.01);
         } catch (Exception ignored) {}
     }
 }

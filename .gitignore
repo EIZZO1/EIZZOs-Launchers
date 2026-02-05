@@ -1,5 +1,9 @@
 target/
+<<<<<<< HEAD
 *.jar
 .idea/
 *.iml
+=======
+*.class
+>>>>>>> 033e0a6b6353a510b81a0257390bc5e70c6e6909
 .DS_Store

@@ -25,6 +25,7 @@ public class EizzoLaunchers extends JavaPlugin {
         launcherGUI = new LauncherGUI(this, launcherManager);
 
         getCommand("launchers").setExecutor(new LauncherCommand(launcherGUI));
+        getCommand("launchers").setTabCompleter(new com.eizzo.launchers.commands.LauncherTabCompleter());
         
         getServer().getPluginManager().registerEvents(new LaunchListener(launcherManager), this);
         getServer().getPluginManager().registerEvents(launcherGUI, this);

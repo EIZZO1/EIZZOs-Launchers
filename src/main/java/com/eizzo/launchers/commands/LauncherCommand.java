@@ -29,9 +29,17 @@ public class LauncherCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
-            sendHelp(player);
-            return true;
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("help")) {
+                sendHelp(player);
+                return true;
+            }
+            if (args[0].equalsIgnoreCase("reload")) {
+                com.eizzo.launchers.EizzoLaunchers.get().reloadConfig();
+                com.eizzo.launchers.EizzoLaunchers.get().getLauncherManager().loadLaunchers();
+                ChatUtils.sendMessage(player, "<green>Configuration reloaded successfully!");
+                return true;
+            }
         }
 
         gui.openMainMenu(player);
@@ -39,8 +47,9 @@ public class LauncherCommand implements CommandExecutor {
     }
 
     private void sendHelp(Player player) {
-        player.sendMessage(MiniMessage.miniMessage().deserialize("<gradient:#55ffff:#5555ff><b>--- EIZZO Launchers Help ---</b></gradient>"));
+        player.sendMessage(MiniMessage.miniMessage().deserialize("<gradient:#ffaa00:#ffff55><b>--- EIZZO Launchers Help ---</b></gradient>"));
         ChatUtils.sendHelpMessage(player, "", "Open the Launcher Manager GUI.");
+        ChatUtils.sendHelpMessage(player, "reload", "Reload the plugin configuration.");
         ChatUtils.sendHelpMessage(player, "help", "Show this help menu.");
     }
 }

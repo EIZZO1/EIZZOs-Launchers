@@ -1,17 +1,13 @@
 package com.eizzo.launchers.managers;
-
 import com.eizzo.launchers.EizzoLaunchers;
 import com.eizzo.launchers.models.LauncherType;
 import org.bukkit.configuration.ConfigurationSection;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 public class LauncherManager {
     private final EizzoLaunchers plugin;
     private final Map<String, LauncherType> launchers = new HashMap<>();
-
     public LauncherManager(EizzoLaunchers plugin) {
         this.plugin = plugin;
     }
@@ -20,7 +16,6 @@ public class LauncherManager {
         launchers.clear();
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("launchers");
         if (section == null) return;
-
         for (String key : section.getKeys(false)) {
             double v = section.getDouble(key + ".vertical", 50);
             double h = section.getDouble(key + ".horizontal", 50);
@@ -66,4 +61,6 @@ public class LauncherManager {
     public Map<String, LauncherType> getLaunchers() {
         return launchers;
     }
+
 }
+

@@ -1,5 +1,4 @@
 package com.eizzo.launchers.commands;
-
 import com.eizzo.launchers.gui.LauncherGUI;
 import com.eizzo.launchers.models.LauncherType;
 import com.eizzo.launchers.utils.ChatUtils;
@@ -9,11 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
 public class LauncherCommand implements CommandExecutor {
-
     private final LauncherGUI gui;
-
     public LauncherCommand(LauncherGUI gui) {
         this.gui = gui;
     }
@@ -24,12 +20,10 @@ public class LauncherCommand implements CommandExecutor {
             sender.sendMessage("Only players can use this command.");
             return true;
         }
-
         if (!player.hasPermission("eizzolaunchers.admin")) {
             ChatUtils.sendMessage(player, "<red>No permission.");
             return true;
         }
-
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("help")) {
                 sendHelp(player);
@@ -45,13 +39,11 @@ public class LauncherCommand implements CommandExecutor {
                 String material = args[1].toUpperCase();
                 String prop = args[2].toLowerCase();
                 String value = args[3];
-
                 LauncherType type = com.eizzo.launchers.EizzoLaunchers.get().getLauncherManager().getLauncher(material);
                 if (type == null) {
                     ChatUtils.sendMessage(player, "<red>Launcher for " + material + " not found.");
                     return true;
                 }
-
                 try {
                     switch (prop) {
                         case "vertical":
@@ -95,16 +87,16 @@ public class LauncherCommand implements CommandExecutor {
                 return true;
             }
         }
-
         gui.openMainMenu(player);
         return true;
     }
 
     private void sendHelp(Player player) {
-        player.sendMessage(MiniMessage.miniMessage().deserialize("<gradient:#ffaa00:#ffff55><b>--- EIZZO Launchers Help ---</b></gradient>"));
+        ChatUtils.sendHelpHeader(player);
         ChatUtils.sendHelpMessage(player, "", "Open the Launcher Manager GUI.");
         ChatUtils.sendHelpMessage(player, "set <material> <prop> <val>", "Set a property for a launcher.");
         ChatUtils.sendHelpMessage(player, "reload", "Reload the plugin configuration.");
         ChatUtils.sendHelpMessage(player, "help", "Show this help menu.");
     }
+
 }

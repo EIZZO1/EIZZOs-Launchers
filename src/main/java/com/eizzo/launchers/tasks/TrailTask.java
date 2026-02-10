@@ -1,5 +1,4 @@
 package com.eizzo.launchers.tasks;
-
 import com.eizzo.launchers.models.LauncherType;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -7,17 +6,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
 import java.util.Map;
 import java.util.UUID;
-
 public class TrailTask extends BukkitRunnable {
-
     private final Entity entity;
     private final LauncherType type;
     private final Map<UUID, TrailTask> activeTrails;
     private int ticks = 0;
-
     public TrailTask(Entity entity, LauncherType type, Map<UUID, TrailTask> activeTrails) {
         this.entity = entity;
         this.type = type;
@@ -30,9 +25,7 @@ public class TrailTask extends BukkitRunnable {
             stop();
             return;
         }
-
         ticks++;
-        
         // Give the player 3 ticks to leave the ground before we start checking for landing
         if (ticks > 3) {
             if (entity instanceof Player player && player.isOnline()) {
@@ -45,7 +38,6 @@ public class TrailTask extends BukkitRunnable {
                 return;
             }
         }
-
         Location loc = entity.getLocation().add(0, 0.2, 0);
         Vector dir = loc.getDirection().setY(0);
         if (dir.lengthSquared() < 0.01) {
@@ -53,9 +45,7 @@ public class TrailTask extends BukkitRunnable {
         } else {
             dir.normalize();
         }
-
         Vector sideOffset = new Vector(-dir.getZ(), 0, dir.getX()).normalize().multiply(0.3);
-
         spawnParticles(loc.clone().add(sideOffset));
         spawnParticles(loc.clone().subtract(sideOffset));
     }
@@ -64,7 +54,6 @@ public class TrailTask extends BukkitRunnable {
         try {
             loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle1()), loc, 1, 0.02, 0.02, 0.02, 0.01);
         } catch (Exception ignored) {}
-
         try {
             loc.getWorld().spawnParticle(Particle.valueOf(type.getTrailParticle2()), loc, 1, 0.02, 0.02, 0.02, 0.01);
         } catch (Exception ignored) {}
@@ -74,4 +63,5 @@ public class TrailTask extends BukkitRunnable {
         activeTrails.remove(entity.getUniqueId());
         this.cancel();
     }
+
 }

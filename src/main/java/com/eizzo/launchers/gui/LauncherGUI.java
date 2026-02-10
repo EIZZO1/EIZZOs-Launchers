@@ -1,5 +1,4 @@
 package com.eizzo.launchers.gui;
-
 import com.eizzo.launchers.EizzoLaunchers;
 import com.eizzo.launchers.managers.LauncherManager;
 import com.eizzo.launchers.models.LauncherType;
@@ -20,28 +19,21 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 public class LauncherGUI implements Listener {
-
     private final EizzoLaunchers plugin;
     private final LauncherManager manager;
-
     private final List<String> niceParticles = Arrays.asList(
             "FLAME", "SOUL_FIRE_FLAME", "DRAGON_BREATH", "HEART", "ENCHANT", "HAPPY_VILLAGER", "CLOUD", "REDSTONE", "SOUL", "TOTEM_OF_UNDYING", "WITCH", "LAVA", "GLOW"
     );
-
     private final List<String> smallParticles = Arrays.asList(
             "WITCH", "CRIT", "ENCHANTED_HIT", "WHITE_ASH", "ASH", "REVERSE_PORTAL", "SOUL_FIRE_FLAME", "FLAME", "HAPPY_VILLAGER", "GLOW"
     );
-
     private final List<String> niceSounds = Arrays.asList(
             "ENTITY_FIREWORK_ROCKET_LAUNCH", "ENTITY_EXPERIENCE_ORB_PICKUP", "ENTITY_PLAYER_LEVELUP", "BLOCK_NOTE_BLOCK_CHIME", "ENTITY_ENDER_DRAGON_FLAP", "ENTITY_WITHER_SHOOT"
     );
-
     public LauncherGUI(EizzoLaunchers plugin, LauncherManager manager) {
         this.plugin = plugin;
         this.manager = manager;
@@ -57,16 +49,13 @@ public class LauncherGUI implements Listener {
 
     public void openMainMenu(Player player) {
         Inventory inv = Bukkit.createInventory(new LauncherHolder(null), 27, Component.text("Launcher Manager"));
-
         int slot = 0;
         for (LauncherType type : manager.getLaunchers().values()) {
             if (slot >= 25) break;
             inv.setItem(slot++, createLauncherItem(type));
         }
-
         inv.setItem(25, createSimpleItem(Material.EMERALD, "§aAdd Launcher", "§7Hold block in hand."));
         inv.setItem(26, createSimpleItem(Material.BARRIER, "§cClose Menu", "§7Exit."));
-
         Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inv));
     }
 
@@ -91,25 +80,19 @@ public class LauncherGUI implements Listener {
 
     public void openEditor(Player player, LauncherType type) {
         Inventory inv = Bukkit.createInventory(new LauncherHolder(type.getMaterial()), 45, Component.text("Editing: " + type.getMaterial()));
-
         // Left Column: Power
         inv.setItem(10, createControlItem(Material.LEVER, "Vertical Height", (int)type.getVertical()));
         inv.setItem(19, createControlItem(Material.FEATHER, "Horizontal Flick", (int)type.getHorizontal()));
-
         // Middle Column: Mode & Sound
         inv.setItem(13, createSimpleItem(Material.OAK_BOAT, "§eBoat Mode: " + (type.isBoat() ? "§aEnabled" : "§cDisabled"), "§7Toggle boat launching."));
         inv.setItem(22, createSimpleItem(Material.JUKEBOX, "§eSound: §f" + type.getSound(), "§7Click to cycle presets."));
-
         // Right Columns: Effects
         inv.setItem(15, createSimpleItem(Material.BLAZE_POWDER, "§eParticle 1: §f" + type.getParticle1(), "§7Click to cycle presets."));
         inv.setItem(24, createSimpleItem(Material.WHITE_DYE, "§eParticle 2: §f" + type.getParticle2(), "§7Click to cycle presets."));
-        
         inv.setItem(16, createSimpleItem(Material.GLOWSTONE_DUST, "§eTrail 1: §f" + type.getTrailParticle1(), "§7Click to cycle small presets."));
         inv.setItem(25, createSimpleItem(Material.GUNPOWDER, "§eTrail 2: §f" + type.getTrailParticle2(), "§7Click to cycle small presets."));
-        
         inv.setItem(40, createSimpleItem(Material.ARROW, "§7Back to Menu", "§8Return."));
         inv.setItem(42, createSimpleItem(Material.BARRIER, "§cClose Editor", "§7Exit."));
-
         Bukkit.getScheduler().runTask(plugin, () -> player.openInventory(inv));
     }
 
@@ -140,14 +123,11 @@ public class LauncherGUI implements Listener {
     public void onClick(InventoryClickEvent event) {
         if (!(event.getInventory().getHolder() instanceof LauncherHolder holder)) return;
         event.setCancelled(true);
-        
         Player player = (Player) event.getWhoClicked();
         ItemStack item = event.getCurrentItem();
         if (item == null || item.getType() == Material.AIR) return;
-
         int slot = event.getRawSlot();
         player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
-
         if (holder.isMain()) {
             if (slot == 25) {
                 Material hand = player.getInventory().getItemInMainHand().getType();
@@ -171,7 +151,6 @@ public class LauncherGUI implements Listener {
         } else {
             LauncherType type = manager.getLauncher(holder.getMaterial());
             if (type == null) return;
-
             if (slot == 10 || slot == 19) {
                 int change = event.isLeftClick() ? 10 : -10;
                 if (slot == 10) {
@@ -222,4 +201,6 @@ public class LauncherGUI implements Listener {
             manager.saveLaunchers();
         }
     }
+
 }
+

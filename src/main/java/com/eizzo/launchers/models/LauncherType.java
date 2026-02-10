@@ -1,5 +1,4 @@
 package com.eizzo.launchers.models;
-
 public class LauncherType {
     private final String material;
     private double vertical;
@@ -10,7 +9,6 @@ public class LauncherType {
     private String trailParticle1;
     private String trailParticle2;
     private String sound;
-
     public LauncherType(String material, double vertical, double horizontal, boolean boat) {
         this(material, vertical, horizontal, boat, "FLAME", "CLOUD", "SOUL_FIRE_FLAME", "WHITE_ASH", "ENTITY_FIREWORK_ROCKET_LAUNCH");
     }
@@ -36,7 +34,6 @@ public class LauncherType {
     public String getTrailParticle1() { return trailParticle1; }
     public String getTrailParticle2() { return trailParticle2; }
     public String getSound() { return sound; }
-
     public void setVertical(double vertical) { this.vertical = vertical; }
     public void setHorizontal(double horizontal) { this.horizontal = horizontal; }
     public void setBoat(boolean boat) { this.boat = boat; }
